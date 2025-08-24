@@ -1,0 +1,32 @@
+Step 1: Update System
+sudo apt update && sudo apt upgrade -y
+
+Step 2: Uninstall Old Versions (if any)
+sudo apt remove docker docker-engine docker.io containerd runc
+
+Step 3: Install Required Dependencies
+sudo apt install -y ca-certificates curl gnupg lsb-release
+
+Step 4: Add Docker’s Official GPG Key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+Step 5: Add Docker Repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+Step 6: Install Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+Step 7: Test Installation
+sudo docker run hello-world
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Step 8: Run OpenRewrite recipe without changing pom.xml
+docker run -it   -v ~/.m2:/root/.m2   -v /mnt/c/Users/adity/projects/java/struts-codebase:/app -w /app maven:3.9.9-eclipse-temurin-17 ./mvnw -U org.openrewrite.maven:rewrite-maven-plugin:run -Drewrite.activeRecipes=org.openrewrite.java.RemoveUnusedImports
+
